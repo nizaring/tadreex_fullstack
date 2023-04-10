@@ -31,7 +31,7 @@ const Navbar = () => {
             Trusted by
           </Link>
           <Link to="services" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-400 mr-4">
-            Our services
+            Our products
           </Link>
           <Link to="/" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-400 mr-4">
             Our events

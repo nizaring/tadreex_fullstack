@@ -18,6 +18,7 @@ import EditAdminProfile from './components/Admin/EditProfile/EditAdminProfile';
 import Services from './components/client/Services';
 import Company from './components/client/Company';
 import ShoppingCartProvider from "./components/context/ShoppingCartContext";
+import ListOfEmployees from "./components/profilePage/ListOfEmployees";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -88,6 +89,7 @@ const App = () => {
               <Route index element={<OurService />} />
               <Route path="MyProfile" element={<EditProfile/>}/>
               <Route path="ourServices" element={<OurService/>}/>
+              <Route path="ListOfEmployees" element={<ListOfEmployees/>}/>
             </Route>
 
 

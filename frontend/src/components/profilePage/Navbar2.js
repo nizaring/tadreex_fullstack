@@ -59,10 +59,10 @@ const Navbar2 = (props) => {
             to="ourServices"
             className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-400 mr-4"
           >
-            Our servises
+            Our products
           </Link>
           <Link
-            to="/"
+            to="ListOfEmployees"
             className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-400 mr-4"
           >
             List of employees
