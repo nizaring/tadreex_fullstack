@@ -1,6 +1,14 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 const ListOfEmployees = () => {
+  const [tableauData, setTableauData] = useState([]);
+  useEffect(() => {
+    axios
+      .get("https://tadreexbackend.onrender.com/employees")
+      .then((response) => setTableauData(response.data))
+      .catch((err) => console.error(err));
+  }, []);
   return (
     <div className="container mx-auto my-8">
       <h2 className="text-2xl font-bold mb-4 text-center">List of employees</h2>
@@ -16,7 +24,12 @@ const ListOfEmployees = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-
+        {tableauData.forEach((employee) => 
+          <tr>
+            <td>{employee.email}</td>
+            <td>{employee.password}</td>
+          </tr>
+        )}
         </tbody>
       </table>
     </div>
