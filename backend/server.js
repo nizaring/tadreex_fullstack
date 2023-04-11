@@ -74,12 +74,6 @@ io.on("connection", (socket) => {
   });
 });
 
-const port = 3000;
-// Start the server
-server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
 
 // Connect to Firebase
 const admin = require("firebase-admin");
@@ -102,10 +96,26 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-let employeeRef = db.collection("Employee");
-employeeRef.get().then((querySnapshot)=>{
-  querySnapshot.forEach(document=>{
-    console.log(document.data());
-  })
+const employeeRef = db.collection("Employee");
+
+app.get("/employees", (req, res) => {
+  employeeRef.get()
+    .then((querySnapshot) => {
+      const employees = [];
+      querySnapshot.forEach((document) => {
+        employees.push(document.data());
+      });
+      res.status(200).send(employees);
+    })
+    .catch((error) => {
+      console.error("Error getting documents: ", error);
+      res.status(500).send(error);
+    });
 });
 
+//server
+const port = 3000;
+// Start the server
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
