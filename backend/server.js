@@ -92,26 +92,25 @@ const serviceAccount = {
 };
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://tadreex-39635-default-rtdb.europe-west1.firebasedatabase.app/"
 });
 
-const db = admin.firestore();
-const employeeRef = db.collection("Employee");
+const db = admin.database();
+const employeeRef = db.ref("users");
 
 app.get("/employees", (req, res) => {
-  employeeRef.get()
-    .then((querySnapshot) => {
-      const employees = [];
-      querySnapshot.forEach((document) => {
-        employees.push(document.data());
-      });
-      res.status(200).send(employees);
-    })
-    .catch((error) => {
-      console.error("Error getting documents: ", error);
-      res.status(500).send(error);
-    });
+  employeeRef.on("value", (snapshot) => {
+    const employees = snapshot.val();
+    res.status(200).send(employees);
+  }, (error) => {
+    console.error("Error getting documents: ", error);
+    res.status(500).send(error);
+  });
 });
+
+
+
 
 //server
 const port = 3000;

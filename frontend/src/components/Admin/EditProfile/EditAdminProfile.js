@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Dialog, Transition } from "@headlessui/react";
+//traduction
+import { useTranslation } from 'react-i18next';
 
 const EditAdminProfile = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -8,13 +10,15 @@ const EditAdminProfile = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  //traduction 
+  const {t} = useTranslation();
 
   const email = localStorage.getItem("email");
   console.log(email)
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessage("");
-    axios.post("https://tadreexbackend.onrender.com/changer-password", { ancien_mot_de_passe: oldPassword, nouveau_mot_de_passe: newPassword, confirmation_mot_de_passe: confirmPassword, email: email })
+    axios.post("http://localhost:3000/changer-password", { ancien_mot_de_passe: oldPassword, nouveau_mot_de_passe: newPassword, confirmation_mot_de_passe: confirmPassword, email: email })
       .then((response) => {
         setMessage(response.data);
         setIsDialogOpen(true);
@@ -31,19 +35,19 @@ const EditAdminProfile = () => {
     setMessage("");
   }
   return (
-    <div className="max-w-md mx-auto mt-8">
+    <div className="mx-auto my-auto mr-20 my-6 border-gray-500 border-solid rounded-lg pt-10 pb-10 pr-20 pl-20 bg-white">
       <form onSubmit={handleSubmit}>
-        <div className="text-3xl font-bold text-indigo-900 mb-4">
-          Change password
+        <div className="text-3xl font-bold text-indigo-900 mb-4 w-80">
+          {t('Change password')}
         </div>
         <div className="mb-4">
           <label className="block text-red-900 font-bold mb-2">
-            My email : {email}
+            {t('My')} email : {email}
           </label>
         </div>
-        <div className="mb-4">
+        <div className="mb-4 w-80">
           <label htmlFor="ancien_mot_de_passe" className="block text-gray-700 font-bold mb-2">
-            Old password :
+            {t('Old password')} :
           </label>
           <input 
             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
@@ -55,9 +59,9 @@ const EditAdminProfile = () => {
             onChange={(e) => setOldPassword(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-4 w-80">
           <label htmlFor="nouveau_mot_de_passe" className="block text-gray-700 font-bold mb-2">
-            New password :
+            {t('New password')} :
           </label>
           <input 
             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
@@ -69,9 +73,9 @@ const EditAdminProfile = () => {
             onChange={(e) => setNewPassword(e.target.value)}
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-6 w-80">
           <label htmlFor="confirmation_mot_de_passe" className="block text-gray-700 font-bold mb-2">
-            Confirm the new password :
+            {t('Confirm the new password')} :
           </label>
           <input 
             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
@@ -84,19 +88,19 @@ const EditAdminProfile = () => {
           />
         </div>
         {message && <p className="text-red-500">{message}</p>}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-80">
         <button 
-                 className="bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                 className="bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2 " 
                  type="submit"
                >
-        Save password
+          {t('Save password')}
         </button>
         <button 
                  className="bg-gray-400 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                  type="button"
                  onClick={handleReset}
                >
-        Reset
+        {t('Reset')}
         </button>
         </div>
         </form>
@@ -114,18 +118,18 @@ const EditAdminProfile = () => {
                 as="h3"
                 className="text-lg font-medium leading-6 text-gray-900"
               >
-                Password successfully updated
+                {t('Password successfully updated')}
               </Dialog.Title>
-              <Dialog.Description className="text-sm mb-4">Would you like to logout?</Dialog.Description>
+              <Dialog.Description className="text-sm mb-4">{t('Would you like to logout?')}</Dialog.Description>
               <div className="mt-4">
               <button className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2" onClick={() => {
                 localStorage.clear();
                 window.location.href = "/signIn";
               }}>
-                Yes
+                {t('Yes')}
               </button>
               <button className="bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setIsDialogOpen(false)}>
-                No
+                {t('No')}
               </button>
               </div>
             </div>

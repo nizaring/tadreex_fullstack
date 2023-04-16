@@ -2,16 +2,19 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import "tailwindcss/tailwind.css";
 import { useNavigate, useParams } from "react-router-dom";
+//traduction
+import { useTranslation } from 'react-i18next';
 
 const CompanyDetail = () => {
   const [courses, setCourses] = useState([]);
 
   const { id } = useParams();
-
+  //traduction 
+  const {t} = useTranslation();
   //afficher les formations acheter par cette entreprise
   useEffect(() => {
     axios
-      .get(`https://tadreexbackend.onrender.com/company/${id}/courses`)
+      .get(`http://localhost:3000/company/${id}/courses`)
       .then((response) => {
         setCourses(response.data);
       })
@@ -28,7 +31,7 @@ const CompanyDetail = () => {
   const updateInProgress = async (courseId) => {
     try {
       await axios.put(
-        `https://tadreexbackend.onrender.com/company/${id}/cours/${courseId}`,
+        `http://localhost:3000/company/${id}/cours/${courseId}`,
         { inProgress: true }
       );
       setCourses(
@@ -52,13 +55,13 @@ const CompanyDetail = () => {
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Nom de formation
+              {t('Training Course Name')}
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Etat
+              {t('State')}
             </th>
           </tr>
         </thead>
@@ -74,14 +77,14 @@ const CompanyDetail = () => {
                     className="mt-2 bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
                     disabled
                   >
-                    terminer
+                    {t('finish')}
                   </button>
                 ) : (
                   <button
                     className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => updateInProgress(course.course_id)}
                   >
-                    Activer
+                    {t('Activate')}
                   </button>
                 )}
               </td>
@@ -95,7 +98,7 @@ const CompanyDetail = () => {
           onClick={goToDashboard}
           className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Go back
+          {t('Go back')}
         </button>
       </div>
     </Fragment>

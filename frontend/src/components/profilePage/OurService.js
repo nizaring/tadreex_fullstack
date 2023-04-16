@@ -8,6 +8,7 @@ import "./OurService.css";
 import { CompanyContext } from "./Profile";
 import { useContext } from "react";
 import { useShoppingCart } from "../context/ShoppingCartContext";
+import { useTranslation } from "react-i18next";
 function OurService() {
   const [tableauData, setTableauData] = useState([]);
   const [tableauDataB, setTableauDataB] = useState([]);
@@ -16,10 +17,12 @@ function OurService() {
   const id = useContext(CompanyContext);
 
   const [inProgress, setInProgress] = useState(false);
-
+  //traduction
+  const { t } = useTranslation();
+  //
   useEffect(() => {
     axios
-      .get("https://tadreexbackend.onrender.com/training-courses")
+      .get("http://localhost:3000/training-courses")
       .then((response) => setTableauData(response.data))
       .catch((err) => console.error(err));
   }, []);
@@ -28,7 +31,7 @@ function OurService() {
     <CompanyContext.Consumer>
       {(id) => {
         axios
-          .get(`https://tadreexbackend.onrender.com/companyB/${id}`)
+          .get(`http://localhost:3000/companyB/${id}`)
           .then((response) => setTableauDataB(response.data))
           .catch((err) => console.error(err));
       }}
@@ -39,7 +42,7 @@ function OurService() {
   useEffect(() => {
     tableauData.forEach((course) => {
       axios
-        .get(`https://tadreexbackend.onrender.com/companyC/${id}/course/${course.course_id}`)
+        .get(`http://localhost:3000/companyC/${id}/course/${course.course_id}`)
         .then((response) =>
           setInProgress((prev) => ({
             ...prev,
@@ -53,7 +56,7 @@ function OurService() {
   //download apk file
   const handleDownload = async (filename) => {
     try {
-      const response = await axios.get(`https://tadreexbackend.onrender.com/download/${filename}`, {
+      const response = await axios.get(`http://localhost:3000/download/${filename}`, {
         responseType: 'blob',
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -70,7 +73,7 @@ function OurService() {
   return (
     <Fragment>
       <div className="flex justify-center items-center h-16 bg-gray-100 text-gray-900 font-bold text-lg uppercase tracking-wide">
-        OUR SERVICES
+        {t('Our products')}
       </div>
       <div className="flex flex-wrap justify-center">
         {tableauData.map((course, index) => (
@@ -80,7 +83,7 @@ function OurService() {
           >
             <img
               className="w-full h-56 object-cover custom-image-width"
-              src={`https://tadreexbackend.onrender.com/${course.image}`}
+              src={`http://localhost:3000/${course.image}`}
               alt={course.title}
             />
             <div className="px-6 py-4">
@@ -105,7 +108,7 @@ function OurService() {
                   }}
                   className="mt-2 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
-                  Add To Cart
+                  {t('Add To Cart')}
                 </button>
               ) : (
                 <div className="flex flex-col items-center gap-0.5">

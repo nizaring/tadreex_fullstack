@@ -7,7 +7,7 @@ function Parent() {
   const [tableauData, setTableauData] = useState([]);
 
   useEffect(() => {
-    axios.get('https://tadreexbackend.onrender.com/training-courses')
+    axios.get('http://localhost:3000/training-courses')
       .then(response => setTableauData(response.data))
       .catch(err => console.error(err));
   }, []);

@@ -1,13 +1,16 @@
 import React, { Fragment, useState } from 'react';
 import axios from 'axios';
 import { Link, Outlet, useNavigate } from "react-router-dom";
-
+//traduction
+import { useTranslation } from 'react-i18next';
 function Formation() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [apkFile, setApkFile] = useState(null);
   const [price, setPrice] = useState(0);
+  //traduction 
+  const {t} = useTranslation();
 
   const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ function Formation() {
 
 
     try {
-      await axios.post('https://tadreexbackend.onrender.com/addCourse', formData);
+      await axios.post('http://localhost:3000/addCourse', formData);
       console.log('Form submitted successfully');
       // Clear form inputs
       setTitle('');
@@ -54,12 +57,12 @@ function Formation() {
   }
   return (
     <Fragment>
-    {!isClicked && <div className="max-w-md mx-auto my-8">
-      <h2 className="text-2xl font-bold mb-4">Add a New Training Course</h2>
+    {!isClicked && <div className="max-w-md mx-auto my-6 border-gray-500 border border-solid rounded-lg pt-6 pb-6 pr-8 pl-8 bg-white">
+      <h2 className="text-2xl font-bold mb-4">{t('Add a New Training Course')}</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700 font-bold mb-2">
-            Title
+            {t('Title')}
           </label>
           <input
             id="title"
@@ -72,7 +75,7 @@ function Formation() {
         </div>
         <div className="mb-4">
           <label htmlFor="price" className="block text-gray-700 font-bold mb-2">
-            Price
+            {t('Price')}
           </label>
           <input
             id="price"
@@ -110,7 +113,7 @@ function Formation() {
           </div>
           <div className="mb-4">
           <label htmlFor="apkFile" className="block text-gray-700 font-bold mb-2">
-          APK File
+            {t('APK FILE')}
           </label>
           <input
                    id="apkFile"
@@ -125,7 +128,7 @@ function Formation() {
                  type="submit"
                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                >
-            Add Course
+            {t('Add Formation')}
           </button>
           {' '}
           <Link to="tableau">
@@ -133,7 +136,7 @@ function Formation() {
                  type="button"
                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                >
-            Go to table of courses
+            {t('Go to table of formations')}
           </button>
           </Link>
           </form>

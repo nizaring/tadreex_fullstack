@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import FormatCurrency from "../Admin/formation/FormatCurrency";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const CartItem = ({ id, quantity, company_id }) => {
   const { removeFromCart } = useShoppingCart();
   const [item, setItem] = useState(null);
   const [isPurchased, setIsPurchased] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-
+  //traduction
+  const { t } = useTranslation();
+  //
   useEffect(() => {
     const fetchItem = async () => {
       try {
         const response = await fetch(
-          `https://tadreexbackend.onrender.com/training-courses/${id}`
+          `http://localhost:3000/training-courses/${id}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -27,7 +30,7 @@ const CartItem = ({ id, quantity, company_id }) => {
     fetchItem();
 
     // Récupération des formations achetées par l'entreprise
-    axios.get(`https://tadreexbackend.onrender.com/company/${company_id}/courses`)
+    axios.get(`http://localhost:3000/company/${company_id}/courses`)
       .then((response) => {
         const purchasedCourses = response.data.map((course) => course.course_id);
         if (purchasedCourses.includes(id)) {
@@ -42,7 +45,7 @@ const CartItem = ({ id, quantity, company_id }) => {
 
   const handleBuyClick = async (courseId) => {
     try {
-      await axios.post(`https://tadreexbackend.onrender.com/company/${company_id}/cours/${courseId}`, {
+      await axios.post(`http://localhost:3000/company/${company_id}/cours/${courseId}`, {
         isPurchased: true,
         inProgress: false,
       });
@@ -64,7 +67,7 @@ const CartItem = ({ id, quantity, company_id }) => {
   return (
     <div className="flex gap-2 items-center">
       <img
-        src={`https://tadreexbackend.onrender.com/${item.image}`}
+        src={`http://localhost:3000/${item.image}`}
         alt="cart-img"
         style={{ width: "70px", height: "75px", objectFit: "cover" }}
       />
@@ -88,12 +91,12 @@ const CartItem = ({ id, quantity, company_id }) => {
         disabled={isPurchased}
         style={{ backgroundColor: isPurchased ? "#838996" : "" }}
       >
-        {isPurchased ? "In progress" : "Demand"}
+        {isPurchased ? t('In progress') : t('Demand')}
       </button>
       <button
         className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
       >
-        payer
+        {t('pay')}
       </button>
     </div>
   );

@@ -3,7 +3,8 @@ import axios from "axios";
 import "tailwindcss/tailwind.css";
 import { Dialog, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-
+//traduction
+import { useTranslation } from 'react-i18next';
 const Account = () => {
   const [companies, setCompanies] = useState([]);
   const [newCode, setNewCode] = useState("");
@@ -28,7 +29,7 @@ const Account = () => {
   // show list of companies
   useEffect(() => {
     axios
-      .get(`https://tadreexbackend.onrender.com/company?_=${deleted}`)
+      .get(`http://localhost:3000/company?_=${deleted}`)
       .then((response) => {
         setCompanies(response.data);
       })
@@ -39,7 +40,7 @@ const Account = () => {
   //delete account of company
   const handleClick = () => {
     axios
-      .delete(`https://tadreexbackend.onrender.com/company/${companyId}`)
+      .delete(`http://localhost:3000/company/${companyId}`)
       .then((response) => {
         console.log("deleted");
         setDeleted(Date.now()); // update the random number
@@ -53,12 +54,12 @@ const Account = () => {
   const updateHandleClick = async (company_id) => {
     try {
       const response = await axios.get(
-        `https://tadreexbackend.onrender.com/check-company-by-code/${newCode}`
+        `http://localhost:3000/check-company-by-code/${newCode}`
       );
       console.log(response.data);
       if (!response.data) {
         const response = await axios.put(
-          `https://tadreexbackend.onrender.com/update-company/${company_id}`,
+          `http://localhost:3000/update-company/${company_id}`,
           { code: newCode }
         );
         console.log("updated");
@@ -76,13 +77,14 @@ const Account = () => {
   const [courseCount, setCourseCount] = useState(0);
   useEffect(() => {
     axios
-      .get(`https://tadreexbackend.onrender.com/company/${1}/courses`)
+      .get(`http://localhost:3000/company/${1}/courses`)
       .then((response) => {
         setCourseCount(response.data.length);
       })
       .catch((error) => console.error(error));
   }, []);
-
+  //traduction 
+  const {t} = useTranslation();
   return (
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">
@@ -97,13 +99,13 @@ const Account = () => {
             scope="col"
             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
           >
-            Phone
+            {t('Phone')}
           </th>
           <th
             scope="col"
             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
           >
-            Company name
+            {t('Company name')}
           </th>
           <th
             scope="col"
@@ -162,7 +164,7 @@ const Account = () => {
                   <div className="flex items-center justify-center space-x-2">
                     {company.code ? (
                       <p className="text-green-500 font-bold">
-                        Code already generated
+                        {t('Code already generated')}
                       </p>
                     ) : (
                       <button
@@ -176,13 +178,13 @@ const Account = () => {
                       onClick={() => handleOpenDialog(company.company_id)}
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Delete
+                      {t('Delete')}
                     </button>
                     <button
                       className="relative bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       onClick={() => handleDetail(company.company_id)}
                     >
-                      Detail
+                      {t('Details')}
                       {courseCount > 0 && company.company_id===1 && (
                         <span className="absolute top-0 -right-1 -mt-2 -mr-1 h-5 w-5 bg-purple-600 rounded-full flex items-center justify-center text-xs font-bold">
                           {courseCount}

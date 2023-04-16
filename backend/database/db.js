@@ -1,13 +1,20 @@
 const { Pool } = require('pg');
 
-const pool = new Pool({
+/* const pool = new Pool({
   host: 'postgresql-120210-0.cloudclusters.net',
   port: 18499,
   database : "myDatabase",
   user: "firas",
   password: "fratello123@"
 });
-
+ */
+const pool = new Pool({
+  host: 'localhost',
+  port: 5432,
+  database : "mydatabase",
+  user: "postgres",
+  password: "fratello123"
+});
 // Vérification si les tables existent
 async function checkIfTablesExist() {
   const query = `

@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.bg1 {
+    background-image: url('../public/assets/background.jpg');
+    background-size: cover ;
+    background-position: center;
+  }
+.bg2 {
+  background-image: url('../public/assets/bg.jpg');
+  background-size: cover ;
+  background-position: center;
+}
+.bg3 {
+  background-image: url('../public/assets/bg3.jpg');
+  background-size: cover ;
+  height: 100%;
+  width: 100%;
+}
+  

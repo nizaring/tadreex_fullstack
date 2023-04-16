@@ -19,6 +19,8 @@ import Services from './components/client/Services';
 import Company from './components/client/Company';
 import ShoppingCartProvider from "./components/context/ShoppingCartContext";
 import ListOfEmployees from "./components/profilePage/ListOfEmployees";
+import HomePage from "./components/client/HomePage";
+import Edit from "./components/Admin/EditProfile/Edit";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -50,7 +52,7 @@ const App = () => {
         <ShoppingCartProvider>
           <Routes>
             <Route path="/" element={<Client />} >
-              <Route index element={<Company />} />
+              <Route index element={<HomePage />} />
               <Route path="signUp" element={<Company/>}/>
               <Route path="services" element={<Services/>}/>
             </Route>
@@ -71,7 +73,7 @@ const App = () => {
                 <Route path="tableau" element={<Parent />} />
                 <Route path="" element={<Formation />} />
               </Route>
-              <Route path="EditProfile" element={<EditAdminProfile/>}/>
+              <Route path="EditProfile" element={<Edit/>}/>
 
               <Route path="tableau" element={<Parent />} />
               <Route path="companyDetails/:id" element={<CompanyDetail />} />
@@ -82,7 +84,7 @@ const App = () => {
             path="/profile"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Profile />
+                <Profile onLogout={handleLogout} />
               </ProtectedRoute>
             }
             >

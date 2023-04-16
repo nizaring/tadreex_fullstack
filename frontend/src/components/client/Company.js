@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import {
   MailIcon,
   KeyIcon,
@@ -16,7 +18,7 @@ const Company = () => {
   useEffect(() => {
     const fetchTrainingCourses = async () => {
       try {
-        const res = await axios.get("https://tadreexbackend.onrender.com/training-courses");
+        const res = await axios.get("http://localhost:3000/training-courses");
         setTrainingCourses(res.data);
       } catch (error) {
         console.error(error);
@@ -24,7 +26,9 @@ const Company = () => {
     };
     fetchTrainingCourses();
   }, []);
-
+  //traduction
+  const { t } = useTranslation();
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,7 +45,7 @@ const Company = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const emailExistsRes = await axios.get(`https://tadreexbackend.onrender.com/api/check-email/${formData.email}`);
+      const emailExistsRes = await axios.get(`http://localhost:3000/api/check-email/${formData.email}`);
       setEmailExists(emailExistsRes.data); // set emailExists state
       if (emailExistsRes.data === false) {
         const formDataWithImage = new FormData();
@@ -54,7 +58,7 @@ const Company = () => {
         formDataWithImage.append("image", formData.image);
   
         const res = await axios.post(
-          "https://tadreexbackend.onrender.com/submit-company",
+          "http://localhost:3000/submit-company",
           formDataWithImage,
           {
             headers: {
@@ -101,9 +105,10 @@ const Company = () => {
     });
   };
   return (
-    <form className="max-w-lg mx-auto mt-4" onSubmit={handleSubmit}>
+    <div className="bg2 pb-10 pt-2">
+    <form className="max-w-lg mt-1 rounded bg-slate-200	ml-[1000px] p-2" onSubmit={handleSubmit}>
       <div className="flex justify-center items-center h-12 bg-gray-100 text-gray-900 font-bold text-lg uppercase tracking-wide">
-        Create an account
+        {t('Create an account')}
       </div>
       <div className="mb-2 my-2">
         <label
@@ -126,7 +131,7 @@ const Company = () => {
         />
         {emailExists && (
           <p className="text-red-500 text-xs mt-1">
-            This email is already registered, please use another one.
+            {t('This email is already registered, please use another one.')}
           </p>
         )}
       </div>
@@ -137,7 +142,7 @@ const Company = () => {
           className="flex items-center text-gray-700 font-bold mb-2"
         >
           <KeyIcon className="w-6 h-6 mr-2" />
-          Password
+          {t('Password')}
         </label>
         <input
           type="password"
@@ -158,7 +163,7 @@ const Company = () => {
           className="flex items-center text-gray-700 font-bold mb-2"
         >
           <PhoneIcon className="w-6 h-6 mr-2" />
-          Phone
+          {t('Phone')}
         </label>
         <input
           type="tel"
@@ -179,7 +184,7 @@ const Company = () => {
           className="flex items-center text-gray-700 font-bold mb-2"
         >
           <UserCircleIcon className="w-6 h-6 mr-2" />
-          Company Name
+          {t('Company name')}
         </label>
         <input
           type="text"
@@ -197,7 +202,7 @@ const Company = () => {
           className="flex items-center text-gray-700 font-bold mb-2"
         >
           <PhotographIcon className="w-6 h-6 mr-2" />
-          Company logo
+          {t('Company logo')}
         </label>
         <input
           id="image"
@@ -232,10 +237,11 @@ const Company = () => {
           type="submit"
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
         >
-          Sign up
+          {t('Sign up')}
         </button>
       </div>
     </form>
+    </div>
   );
 };
 export default Company;

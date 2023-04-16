@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+//traduction
+import { useTranslation } from 'react-i18next';
 function EditCourse() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -10,10 +11,12 @@ function EditCourse() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [apkFile, setApkFile] = useState(null);
+  //traduction 
+  const {t} = useTranslation();
 
   useEffect(() => {
     axios
-      .get(`https://tadreexbackend.onrender.com/training-courses/${id}`)
+      .get(`http://localhost:3000/training-courses/${id}`)
       .then((response) => {
         setTitle((response.data.title));
         setPrice((response.data.price));
@@ -37,7 +40,7 @@ function EditCourse() {
       formData.append("apkFile", apkFile);
     }
     axios
-      .put(`https://tadreexbackend.onrender.com/updateCourse/${id}`, formData)
+      .put(`http://localhost:3000/updateCourse/${id}`, formData)
       .then((response) => {
         console.log("updated");
         navigate("/dashboard/tableau");
@@ -62,11 +65,11 @@ function EditCourse() {
 
   return (
     <div className="container mx-auto my-8">
-      <h2 className="text-2xl font-bold mb-4">Edit Course</h2>
+      <h2 className="text-2xl font-bold mb-4">{t('Edit')} Formation</h2>
       <form>
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
-            Title
+            {t('Title')}
           </label>
           <input
             type="text"
@@ -80,7 +83,7 @@ function EditCourse() {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="price">
-            Price
+            {t('Price')}
           </label>
           <input
             type="text"
@@ -129,7 +132,7 @@ function EditCourse() {
                      className="block text-gray-700 font-bold mb-2"
                      htmlFor="apkFile"
                    >
-            APK File
+              {t('APK FILE')}
             </label>
             <input
                      type="file"
@@ -146,14 +149,14 @@ function EditCourse() {
                      type="button"
                      onClick={handleSave}
                    >
-            Save
+              {t('Save')}
             </button>
             <button
                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                      type="button"
                      onClick={handleCancel}
                    >
-            Cancel
+              {t('Cancel')}
             </button>
             </div>
             </form>

@@ -3,9 +3,13 @@ import { XIcon } from "@heroicons/react/outline";
 import CartItem from "./CartItem";
 import FormatCurrency from "../Admin/formation/FormatCurrency";
 import { useShoppingCart } from "../context/ShoppingCartContext";
+import { useTranslation } from "react-i18next";
 
 const ShoppingCart = ({ isOpen }) => {
   const { closeCart, cartItems } = useShoppingCart();
+  //traduction
+  const { t } = useTranslation();
+
   return (
     <div
       className={`fixed inset-0 z-50 overflow-hidden ${
@@ -19,13 +23,13 @@ const ShoppingCart = ({ isOpen }) => {
           <div className="relative w-screen max-w-md">
             <div className="h-full flex flex-col bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
               <div className="flex justify-between px-4 py-3 bg-gray-200">
-                <h2 className="text-lg font-medium">Cart</h2>
+                <h2 className="text-lg font-medium">{t('Cart')}</h2>
                 <button
                   type="button"
                   onClick={closeCart}
                   className="text-gray-600 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
                 >
-                  <span className="sr-only">Close panel</span>
+                  <span className="sr-only">{t('Close panel')}</span>
                   <XIcon className="h-6 w-6" />
                 </button>
               </div>
@@ -35,7 +39,7 @@ const ShoppingCart = ({ isOpen }) => {
                 ))}
               </div>
               <div className="px-4 py-3 bg-gray-200 font-bold text-lg flex justify-between items-center">
-                <span>Total</span>
+                <span>{t('Total')}</span>
                 <span>
                   {FormatCurrency(
                     cartItems.reduce((total, cartItem) => {

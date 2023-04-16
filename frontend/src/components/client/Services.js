@@ -1,14 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 
 function Services() {
   const [tableauData, setTableauData] = useState([]);
-
+  //traduction
+  const { t } = useTranslation();
   useEffect(() => {
     axios
-      .get("https://tadreexbackend.onrender.com/training-courses")
+      .get("http://localhost:3000/training-courses")
       .then((response) => setTableauData(response.data))
       .catch((err) => console.error(err));
   }, []);
@@ -16,14 +18,14 @@ function Services() {
   return (
     <Fragment>
       <div className="flex justify-center items-center h-16 bg-gray-100 text-gray-900 font-bold text-lg uppercase tracking-wide">
-        OUR SERVICES
+        {t('Our products')}
       </div>
       <div className="flex flex-wrap justify-center">
         {tableauData.map((course, index) => (
           <div class="max-w-sm mx-2 my-4 rounded-lg overflow-hidden shadow-md">
             <img
               class="w-full h-56 object-cover img-class"
-              src={`https://tadreexbackend.onrender.com/${course.image}`}
+              src={`http://localhost:3000/${course.image}`}
               alt={course.title}
             />
             <div class="px-6 py-4">
