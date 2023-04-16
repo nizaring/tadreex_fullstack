@@ -35,4 +35,20 @@ const Edit = () => {
             onClick={handlePassword}
             className={`${
               selectedButton === 'password'
-                ? 'bg-pink-40
+                ? 'bg-pink-400 hover:bg-pink-500'
+                : 'bg-gray-300 hover:bg-gray-400'
+            } text-white font-bold py-2 px-4 rounded`}
+          >
+            Change password
+          </button>
+        </div>
+      </div>
+
+      <div className="ml-10 mt-20">
+        <div>{!switchComponent ? <EditInformations /> : <EditAdminProfile />}</div>
+      </div>
+    </div>
+  );
+};
+
+export default Edit;
